@@ -58,38 +58,43 @@ class School {
         }
 
         void addStudent() {
-            string stream;
-            cout << "Enter stream for student (e.g., BTech EXTC, BTI CE): ";
-            cin.ignore();
-            getline(cin, stream);
-
-            bool classFound = false;
-            for (int i = 0; i < classCount; i++) {
-                if (toLowerCase(classes[i].streamName) == toLowerCase(stream)) {
-                    classFound = true;
-                    if (classes[i].studentCount < 100) {
-                        cout << "Enter student ID (15 alphanumeric characters): ";
-                        cin >> classes[i].students[classes[i].studentCount].id;
-                        cout << "Enter student name: ";
-                        cin.ignore();
-                        getline(cin, classes[i].students[classes[i].studentCount].name);
-                        cout << "Enter student age: ";
-                        cin >> classes[i].students[classes[i].studentCount].age;
-                        cout << "Enter year and semester in 'year - sem' format (e.g., 2 - 1): ";
-                        cin.ignore();
-                        getline(cin, classes[i].students[classes[i].studentCount].yearSem);
-                        classes[i].students[classes[i].studentCount].stream = stream;
-                        classes[i].studentCount++;
-                        cout << "Student added successfully to class " << stream << "!\n";
-                    } else {
-                        cout << "Cannot add more students, class is full.\n";
-                    }
-                    break;
-                }
+            if (classCount == 0) {
+                cout << "No classes available. Please add a class first.\n";
+                return;
             }
 
-            if (!classFound) {
-                cout << "Class not found. Please add the class first.\n";
+            cout << "\nAvailable streams:\n";
+            for (int i = 0; i < classCount; i++) {
+                cout << (i + 1) << ". " << classes[i].streamName << "\n";
+            }
+
+            int choice;
+            cout << "Select a stream by number: ";
+            cin >> choice;
+
+            if (choice < 1 || choice > classCount) {
+                cout << "Invalid choice.\n";
+                return;
+            }
+
+            string stream = classes[choice - 1].streamName;
+
+            if (classes[choice - 1].studentCount < 100) {
+                cout << "Enter student ID (15 alphanumeric characters): ";
+                cin >> classes[choice - 1].students[classes[choice - 1].studentCount].id;
+                cout << "Enter student name: ";
+                cin.ignore();
+                getline(cin, classes[choice - 1].students[classes[choice - 1].studentCount].name);
+                cout << "Enter student age: ";
+                cin >> classes[choice - 1].students[classes[choice - 1].studentCount].age;
+                cout << "Enter year and semester in 'year - sem' format (e.g., 2 - 1): ";
+                cin.ignore();
+                getline(cin, classes[choice - 1].students[classes[choice - 1].studentCount].yearSem);
+                classes[choice - 1].students[classes[choice - 1].studentCount].stream = stream;
+                classes[choice - 1].studentCount++;
+                cout << "Student added successfully to class " << stream << "!\n";
+            } else {
+                cout << "Cannot add more students, class is full.\n";
             }
         }
 
@@ -162,7 +167,7 @@ class School {
                         cout << "\n1. Name";
                         cout << "\n2. Age";
                         cout << "\n3. Year-Semester";
-                        cout << "\n4. Class/Stream";
+                        cout << "\n4. Course/Stream";
                         cout << "\nEnter choice: ";
                         cin >> updateChoice;
 
@@ -250,14 +255,15 @@ int main() {
     int choice;
 
     do {
-        cout << "\n1. Add Class";
-        cout << "\n2. Add Student";
-        cout << "\n3. Display Students";
-        cout << "\n4. Display Students of Stream";
-        cout << "\n5. Update Student";
-        cout << "\n6. Delete Student";
-        cout << "\n7. Exit";
-        cout << "\nEnter your choice: ";
+        cout << "\nMenu:\n";
+        cout << "1. Add Class\n";
+        cout << "2. Add Student\n";
+        cout << "3. Display Students\n";
+        cout << "4. Display Students of a Specific Stream\n";
+        cout << "5. Update Student\n";
+        cout << "6. Delete Student\n";
+        cout << "7. Exit\n";
+        cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
@@ -280,10 +286,10 @@ int main() {
                 school.deleteStudent();
                 break;
             case 7:
-                cout << "Exiting program...\n";
+                cout << "Exiting program.\n";
                 break;
             default:
-                cout << "Invalid choice. Please try again.\n";
+                cout << "Invalid choice. Try again.\n";
         }
     } while (choice != 7);
 
