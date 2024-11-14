@@ -41,7 +41,6 @@ class School {
                 cin.ignore();
                 getline(cin, streamName);
 
-                // Check if the class already exists
                 for (int i = 0; i < classCount; i++) {
                     if (toLowerCase(classes[i].streamName) == toLowerCase(streamName)) {
                         cout << "Class already exists.\n";
@@ -49,7 +48,6 @@ class School {
                     }
                 }
 
-                // Add new class
                 classes[classCount].streamName = streamName;
                 classes[classCount].studentCount = 0;
                 classCount++;
